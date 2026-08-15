@@ -14,7 +14,6 @@ jobs:
       - name: Extract NOVA project
         run: |
           unzip -q NOVA_Android_Studio_v0_2.zip -d nova-project
-          echo "PROJECT_DIR=nova-project" >> $GITHUB_ENV
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -29,22 +28,12 @@ jobs:
         run: |
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Install Gradle
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.7'
 
-      - name: Fix Kotlin/Compose compatibility
-        working-directory: nova-project
-        run: |
-          sed -i 's/id("org.jetbrains.kotlin.android") version "2.0.21"/id("org.jetbrains.kotlin.android") version "1.9.25"/' build.gradle.kts
-
-            - name: Configure JVM compatibility
-        working-directory: nova-project
-        run: |
-          echo "kotlin.jvm.target.validation.mode=warning" >> gradle.properties
-
-      - name: Build APK
+      - name: Build NOVA
         working-directory: nova-project
         run: |
           gradle assembleDebug --stacktrace -Pkotlin.jvm.target.validation.mode=warning
