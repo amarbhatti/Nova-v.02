@@ -13,8 +13,7 @@ jobs:
 
       - name: Extract NOVA project
         run: |
-          unzip -q NOVA_Android_Studio_v0_2.zip -d nova-project
-
+          unzip -q NOVA_Android_Studio_v0_3_fixed.zip -d nova-project
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
